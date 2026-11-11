@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MeuBolso AI — Organize suas finanças e economize mais</title>
+<meta name="description" content="Chega de ver seu dinheiro desaparecer. O MeuBolso AI organiza suas finanças com IA, aponta o gasto que cresceu e sugere um limite. Plano gratuito, sem cartão.">
+<style>
+:root{
+--color-primary:#7EE646;
+--color-primary-dark:#5CC72E;
+--color-secondary:#0E2238;
+--color-secondary-soft:#17304B;
+--color-accent:#177368;
+--color-text:#0E2238;
+--color-text-light:#4D6071;
+--color-bg:#FFFFFF;
+--color-bg-soft:#F4F7F9;
+--color-border:#DFE7ED;
+--font-body:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+--font-heading:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+--text-sm:0.875rem;--text-base:1rem;--text-lg:1.125rem;--text-xl:1.25rem;
+--text-2xl:1.5rem;--text-3xl:1.875rem;--text-4xl:2.25rem;
+--container-width:1200px;
+--padding-mobile:20px;--padding-desktop:32px;
+--section-gap-mobile:60px;--section-gap-desktop:120px;
+--transition-fast:300ms;--transition-medium:600ms;--easing:ease-in-out;
+--reveal-delay:400ms;
+--radius-sm:8px;--radius-md:16px;--radius-lg:32px;--radius-pill:30px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--color-text);background:var(--color-bg);line-height:1.6;font-size:var(--text-base);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+.container{max-width:var(--container-width);margin:0 auto;padding:0 var(--padding-mobile)}
+.section{padding:var(--section-gap-mobile) 0}
+.section-soft{background:var(--color-bg-soft)}
+.section-dark{background:var(--color-secondary);color:#fff}
+.heading-xl{font-family:var(--font-heading);font-size:var(--text-3xl);line-height:1.15;font-weight:700;letter-spacing:-0.02em}
+.heading-lg{font-size:var(--text-2xl);line-height:1.2;font-weight:700;letter-spacing:-0.01em}
+.heading-md{font-size:var(--text-lg);font-weight:700;line-height:1.3}
+.lead{font-size:var(--text-lg);color:var(--color-text-light)}
+.section-dark .lead,.section-dark .muted{color:#C6D4E0}
+.muted{color:var(--color-text-light);font-size:var(--text-sm)}
+.eyebrow{font-size:var(--text-sm);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--color-accent);margin-bottom:12px}
+.section-dark .eyebrow{color:var(--color-primary)}
+.art{width:100%;height:auto;display:block;border-radius:var(--radius-md)}
+.ico{width:44px;height:44px;border-radius:var(--radius-sm);background:#E4F8D8;color:#2A5F11;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.section-dark .ico{background:#17304B;color:var(--color-primary)}
+.ico svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.stat{display:block;font-size:var(--text-3xl);font-weight:800;letter-spacing:-0.03em;line-height:1.1;color:var(--color-text);margin-bottom:10px}
+.section-dark .stat{color:var(--color-primary)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:13px 28px;border-radius:var(--radius-pill);font-family:var(--font-body);font-weight:700;font-size:var(--text-base);line-height:1.25;text-decoration:none;text-align:center;cursor:pointer;border:2px solid transparent;transition:background var(--transition-fast) var(--easing),transform var(--transition-fast) var(--easing)}
+.btn-primary{background:var(--color-primary);color:#0E2238}
+.btn-primary:hover{background:var(--color-primary-dark);transform:scale(1.05)}
+.btn-sm{min-height:48px;padding:10px 20px;font-size:var(--text-sm)}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--color-accent);outline-offset:3px}
+.section-dark a:focus-visible,header a:focus-visible{outline-color:var(--color-primary)}
+header{position:sticky;top:0;height:72px;background:rgba(14,34,56,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(255,255,255,.14);z-index:100}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:14px;height:72px}
+.logo{display:flex;align-items:baseline;gap:7px;font-weight:700;font-size:var(--text-xl);color:#fff;text-decoration:none;letter-spacing:-0.01em;white-space:nowrap}
+.logo span{color:var(--color-primary)}
+.hero{background:var(--color-secondary);color:#fff;padding:52px 0 60px}
+.hero-grid{display:flex;flex-direction:column;gap:36px}
+.hero h1{font-size:2.05rem;line-height:1.1;font-weight:800;letter-spacing:-0.03em;margin-bottom:18px}
+.hero h1 em{font-style:normal;color:var(--color-primary)}
+.hero .lead{margin-bottom:26px;max-width:46ch}
+.hero-note{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:18px;font-size:var(--text-sm);color:#C6D4E0;list-style:none}
+.hero-note li{position:relative;padding-left:22px}
+.hero-note li::before{content:"✓";position:absolute;left:0;color:var(--color-primary);font-weight:700}
+.placeholder-img{background:var(--color-secondary-soft);border:1px solid rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;color:#A9BCCD;font-size:var(--text-sm);text-align:center;padding:20px;border-radius:var(--radius-md)}
+.grid{display:grid;gap:20px}
+.card{background:#fff;border:1px solid var(--color-border);border-radius:var(--radius-md);padding:26px;transition:transform var(--transition-fast) var(--easing),box-shadow var(--transition-fast) var(--easing)}
+.card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(14,34,56,.10)}
+.step-num{width:48px;height:48px;border-radius:50%;background:var(--color-primary);color:#0E2238;display:flex;align-items:center;justify-content:center;font-size:var(--text-xl);font-weight:800;margin-bottom:16px}
+.list{list-style:none;display:grid;gap:12px;margin-top:20px}
+.list li{position:relative;padding-left:30px}
+.list li::before{content:"✓";position:absolute;left:0;top:0;color:#2F6B14;font-weight:700}
+.section-dark .list li::before{color:var(--color-primary)}
+.plan{background:#fff;border:1px solid var(--color-border);border-radius:var(--radius-md);padding:30px;display:flex;flex-direction:column}
+.plan-featured{border:2px solid var(--color-primary)}
+.badge{display:inline-block;background:#E4F8D8;color:#2A5F11;font-size:var(--text-sm);font-weight:700;padding:5px 14px;border-radius:var(--radius-pill);margin-bottom:14px;align-self:flex-start}
+.price{font-size:var(--text-4xl);font-weight:800;letter-spacing:-0.03em;margin:10px 0 4px}
+.plan .btn{margin-top:auto}
+.plan .list{margin-bottom:26px}
+.faq-item{border-bottom:1px solid var(--color-border)}
+.faq-item summary{list-style:none;cursor:pointer;padding:20px 44px 20px 0;font-weight:700;font-size:var(--text-lg);position:relative;min-height:44px}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:"";position:absolute;right:8px;top:28px;width:11px;height:11px;border-right:2.5px solid var(--color-text-light);border-bottom:2.5px solid var(--color-text-light);transform:rotate(45deg);transition:transform var(--transition-fast) var(--easing)}
+.faq-item[open] summary::after{transform:rotate(-135deg)}
+.faq-answer{padding:0 0 22px;color:var(--color-text-light);max-width:70ch}
+.field{display:grid;gap:7px;margin-bottom:18px}
+.field label{font-weight:700;font-size:var(--text-sm)}
+.field input{min-height:52px;padding:0 16px;border:1px solid var(--color-border);border-radius:var(--radius-sm);font-family:var(--font-body);font-size:var(--text-base);background:#fff;color:var(--color-text);transition:border-color var(--transition-fast) var(--easing)}
+.field input:focus{border-color:var(--color-accent)}
+.consent{display:flex;gap:11px;align-items:flex-start;margin-bottom:22px;font-size:var(--text-sm);color:var(--color-text-light)}
+.consent input{width:22px;height:22px;flex:0 0 22px;margin-top:2px}
+.form-wrap{background:#fff;border:1px solid var(--color-border);border-radius:var(--radius-md);padding:28px}
+.guarantee{display:flex;gap:16px;align-items:flex-start}
+.shield{flex:0 0 44px;width:44px;height:44px;border-radius:50%;background:#E4F8D8;color:#2A5F11;display:flex;align-items:center;justify-content:center;font-weight:700}
+footer{background:var(--color-secondary);color:#C6D4E0;padding:52px 0 32px;font-size:var(--text-sm)}
+footer h3{color:#fff;font-size:var(--text-base);margin-bottom:14px}
+footer a{text-decoration:none;transition:color var(--transition-fast) var(--easing)}
+footer a:hover{color:var(--color-primary)}
+.footer-grid{display:grid;gap:30px}
+.footer-links{list-style:none;display:grid;gap:9px}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.16);margin-top:34px;padding-top:22px;display:grid;gap:10px}
+.js .reveal{opacity:0;transform:translateY(20px);transition:opacity var(--transition-medium) var(--easing),transform var(--transition-medium) var(--easing);will-change:opacity,transform}
+.js .reveal.active{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:calc(var(--reveal-delay) * 1)}
+.reveal-delay-2{transition-delay:calc(var(--reveal-delay) * 2)}
+.defer{content-visibility:auto;contain-intrinsic-size:auto 900px}
+@media (prefers-reduced-motion:reduce){
+.js .reveal{opacity:1;transform:none;transition:none}
+.btn:hover,.card:hover{transform:none}
+html{scroll-behavior:auto}
+}
+@media print{
+header{position:static;background:var(--color-secondary)}
+.defer{content-visibility:visible}
+.js .reveal{opacity:1;transform:none}
+.faq-answer{display:block !important}
+.section{padding:34px 0}
+}
+@media (min-width:768px){
+.container{padding:0 var(--padding-desktop)}
+.section{padding:var(--section-gap-desktop) 0}
+.heading-xl{font-size:var(--text-4xl)}
+.heading-lg{font-size:var(--text-3xl)}
+.hero{padding:84px 0 100px}
+.hero h1{font-size:3.3rem}
+.hero-grid{flex-direction:row;align-items:center;gap:56px}
+.hero-copy{flex:1 1 55%}
+.hero-media{flex:1 1 45%}
+.grid-3{grid-template-columns:repeat(3,1fr);gap:26px}
+.grid-2{grid-template-columns:repeat(2,1fr);gap:26px}
+.footer-grid{grid-template-columns:2fr 1fr 1fr}
+.footer-bottom{grid-template-columns:max-content 1fr;gap:28px;align-items:baseline}
+}
+</style>
+<script>document.documentElement.className+=" js"</script>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a class="logo" href="#hero">MeuBolso <span>AI</span></a>
+    <a class="btn btn-primary btn-sm" href="#cadastro">Quero Começar a Economizar</a>
+  </div>
+</header>
+
+<main>
+
+<section class="hero" id="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Assistente financeiro pessoal</p>
+      <h1>Organize suas finanças e <em>economize mais!</em></h1>
+      <p class="lead" style="color:#DCE6EE">Chega de ver seu dinheiro desaparecer! Organize suas finanças com IA, descubra gastos desnecessários e economize mais.</p>
+      <a class="btn btn-primary" href="#cadastro">Quero Começar a Economizar</a>
+      <ul class="hero-note">
+        <li>R$ 0 para começar</li>
+        <li>Cadastro em 2 campos</li>
+        <li>Sem cartão de crédito</li>
+      </ul>
+    </div>
+    <div class="hero-media">
+      <svg class="art" width="360" height="450" viewBox="0 0 360 450" role="img" aria-labelledby="art1t" preserveAspectRatio="xMidYMid meet">
+        <title id="art1t">Tela do aplicativo MeuBolso AI com o resumo do mês, o gasto que mais cresceu em destaque e o limite sugerido</title>
+        <rect x="84" y="8" width="192" height="434" rx="26" fill="#17304B" stroke="#2C4C6D"/>
+        <rect x="92" y="16" width="176" height="418" rx="20" fill="#0B1B2D"/>
+        <rect x="160" y="24" width="40" height="5" rx="2.5" fill="#2C4C6D"/>
+        <text x="106" y="56" fill="#9FB3C6" font-family="system-ui,sans-serif" font-size="9">Novembro</text>
+        <text x="106" y="72" fill="#FFFFFF" font-family="system-ui,sans-serif" font-size="14" font-weight="700">Seu resumo do mês</text>
+        <rect x="104" y="84" width="152" height="96" rx="12" fill="#13263C" stroke="#28435F"/>
+        <circle cx="136" cy="132" r="25" fill="none" stroke="#28435F" stroke-width="9"/>
+        <path d="M136 107a25 25 0 0 1 19 41" fill="none" stroke="#7EE646" stroke-width="9" stroke-linecap="round"/>
+        <text x="172" y="123" fill="#9FB3C6" font-family="system-ui,sans-serif" font-size="8">Total registrado</text>
+        <text x="172" y="140" fill="#FFFFFF" font-family="system-ui,sans-serif" font-size="14" font-weight="700">R$ ——</text>
+        <text x="172" y="154" fill="#73879B" font-family="system-ui,sans-serif" font-size="7">exemplo ilustrativo</text>
+        <text x="106" y="200" fill="#9FB3C6" font-family="system-ui,sans-serif" font-size="9">Gastos por categoria</text>
+        <g>
+          <rect x="106" y="212" width="18" height="44" rx="4" fill="#28435F"/>
+          <rect x="133" y="226" width="18" height="30" rx="4" fill="#28435F"/>
+          <rect x="160" y="196" width="18" height="60" rx="4" fill="#EF9F27"/>
+          <rect x="187" y="232" width="18" height="24" rx="4" fill="#28435F"/>
+          <rect x="214" y="220" width="18" height="36" rx="4" fill="#28435F"/>
+          <rect x="241" y="238" width="15" height="18" rx="4" fill="#28435F"/>
+        </g>
+        <line x1="106" y1="258" x2="256" y2="258" stroke="#28435F"/>
+        <rect x="104" y="272" width="152" height="60" rx="12" fill="#2A2110" stroke="#7A5A13"/>
+        <circle cx="121" cy="289" r="8" fill="#EF9F27"/>
+        <path d="M121 285v5M121 293.5v.5" stroke="#2A2110" stroke-width="2" stroke-linecap="round"/>
+        <text x="136" y="292" fill="#F7C877" font-family="system-ui,sans-serif" font-size="10" font-weight="700">Gasto que cresceu</text>
+        <text x="116" y="310" fill="#E8D5AC" font-family="system-ui,sans-serif" font-size="9">Entrega de comida subiu em</text>
+        <text x="116" y="323" fill="#E8D5AC" font-family="system-ui,sans-serif" font-size="9">relação ao seu mês anterior.</text>
+        <rect x="104" y="342" width="152" height="54" rx="12" fill="#13263C" stroke="#28435F"/>
+        <text x="116" y="362" fill="#9FB3C6" font-family="system-ui,sans-serif" font-size="9">Limite sugerido</text>
+        <rect x="116" y="372" width="128" height="7" rx="3.5" fill="#28435F"/>
+        <rect x="116" y="372" width="78" height="7" rx="3.5" fill="#7EE646"/>
+        <text x="116" y="391" fill="#73879B" font-family="system-ui,sans-serif" font-size="8">equivalente a 12 meses no detalhe</text>
+        <rect x="104" y="406" width="152" height="22" rx="11" fill="#7EE646"/>
+        <text x="180" y="421" fill="#0E2238" font-family="system-ui,sans-serif" font-size="10" font-weight="700" text-anchor="middle">Ver detalhes</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="section defer" id="beneficios">
+  <div class="container">
+    <div class="reveal" style="max-width:62ch;margin-bottom:40px">
+      <p class="eyebrow">Benefícios</p>
+      <h2 class="heading-xl">O problema não é falta de controle. É que ninguém soma os gastos pequenos.</h2>
+    </div>
+    <div class="grid grid-3">
+      <div class="card reveal">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
+        <span class="stat">1 gasto</span>
+        <h3 class="heading-md">O app aponta qual despesa cresceu</h3>
+        <p class="muted" style="margin-top:10px">Todo mês o MeuBolso AI destaca uma despesa: a que mais subiu em relação ao seu mês anterior. Uma, não uma lista de trinta linhas para você interpretar.</p>
+      </div>
+      <div class="card reveal reveal-delay-1">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg></div>
+        <span class="stat">12 meses</span>
+        <h3 class="heading-md">Você vê quanto aquilo pesa no ano</h3>
+        <p class="muted" style="margin-top:10px">Ao lado do valor mensal, o app mostra o equivalente em 12 meses. É o número que faz você decidir se vale cortar.</p>
+      </div>
+      <div class="card reveal reveal-delay-2">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></div>
+        <span class="stat">1 limite</span>
+        <h3 class="heading-md">A sugestão já vem pronta</h3>
+        <p class="muted" style="margin-top:10px">Em vez de um gráfico, você recebe um valor de limite para aquela despesa e acompanha quanto já usou dele no mês.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-soft defer" id="prova">
+  <div class="container">
+    <div class="reveal" style="max-width:62ch;margin-bottom:36px">
+      <p class="eyebrow">Transparência</p>
+      <h2 class="heading-lg">Somos novos, e preferimos dizer isso</h2>
+      <p class="lead" style="margin-top:14px">O MeuBolso AI acabou de chegar às lojas. Não temos número de usuários nem avaliações para mostrar aqui, e não vamos inventar nenhum. O que dá para verificar hoje é isto:</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card reveal">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 9l2-5h14l2 5M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></svg></div>
+        <span class="stat">2 lojas</span>
+        <h3 class="heading-md">App Store e Google Play</h3>
+        <p class="muted" style="margin-top:10px">Publicado nas duas lojas oficiais e submetido às regras de privacidade e segurança de cada uma. Você instala pelo caminho de sempre.</p>
+      </div>
+      <div class="card reveal reveal-delay-1">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+        <span class="stat">0 dados</span>
+        <h3 class="heading-md">Nada é vendido a terceiros</h3>
+        <p class="muted" style="margin-top:10px">Nenhuma informação sua é comercializada ou repassada. Apagar a conta remove os dados associados, pelo próprio app.</p>
+      </div>
+      <div class="card reveal reveal-delay-2">
+        <div class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 10l9-6 9 6M5 10v9M19 10v9M9 10v9M15 10v9M3 21h18"/></svg></div>
+        <span class="stat">0 acessos</span>
+        <h3 class="heading-md">Nenhum acesso à sua conta bancária</h3>
+        <p class="muted" style="margin-top:10px">O app não pede login de banco, não movimenta valores e não faz aplicações. Ele trabalha só com o que você registra.</p>
+      </div>
+    </div>
+    <p class="muted reveal" style="margin-top:26px;max-width:70ch">Quando houver avaliações e depoimentos de quem usa, eles entram aqui com nome e data. Até lá, este espaço fica vazio de propósito.</p>
+  </div>
+</section>
+
+<section class="section defer" id="como-funciona">
+  <div class="container">
+    <div class="reveal" style="max-width:62ch;margin-bottom:40px">
+      <p class="eyebrow">Como funciona</p>
+      <h2 class="heading-xl">3 passos, e o primeiro leva menos de 1 minuto</h2>
+    </div>
+    <div class="grid grid-3">
+      <div class="reveal">
+        <div class="step-num" aria-hidden="true">1</div>
+        <h3 class="heading-md">Crie sua conta em 2 campos</h3>
+        <p class="muted" style="margin-top:10px">E-mail e senha, menos de 1 minuto. Nenhum dado bancário é pedido no cadastro.</p>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <div class="step-num" aria-hidden="true">2</div>
+        <h3 class="heading-md">Registre os gastos em segundos</h3>
+        <p class="muted" style="margin-top:10px">Cada lançamento leva poucos segundos e é classificado por categoria automaticamente.</p>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="step-num" aria-hidden="true">3</div>
+        <h3 class="heading-md">Receba a análise já no 1º mês</h3>
+        <p class="muted" style="margin-top:10px">Com um mês registrado, o app passa a comparar períodos, apontar o gasto que cresceu e sugerir o limite.</p>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top:36px">
+      <a class="btn btn-primary" href="#cadastro">Quero Começar a Economizar</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark defer" id="diferenciais">
+  <div class="container">
+    <div class="grid grid-2" style="align-items:center">
+      <div class="reveal">
+        <p class="eyebrow">Oferta e diferenciais</p>
+        <h2 class="heading-xl">A maioria dos apps registra. O nosso diz o que fazer.</h2>
+        <p class="lead" style="margin-top:16px">Anotar despesa é a parte fácil, e é onde quase todo mundo desiste depois de 2 semanas. O MeuBolso AI foi feito para a parte seguinte: transformar aquilo em uma decisão.</p>
+        <ul class="list">
+          <li>Comparação com os seus próprios meses anteriores, não com uma média de mercado</li>
+          <li>1 despesa em destaque por mês, em vez da lista inteira</li>
+          <li>Limite sugerido com o valor equivalente em 12 meses</li>
+          <li>Plano gratuito sem prazo de validade e sem cartão</li>
+        </ul>
+      </div>
+      <div class="reveal reveal-delay-1">
+        <svg class="art" width="480" height="360" viewBox="0 0 480 360" role="img" aria-labelledby="art2t" preserveAspectRatio="xMidYMid meet">
+          <title id="art2t">Comparação entre uma lista de gastos sem análise e a tela do MeuBolso AI com o gasto em destaque e o limite sugerido</title>
+          <text x="16" y="22" fill="#9FB3C6" font-family="system-ui,sans-serif" font-size="12" font-weight="700">Outros apps</text>
+          <rect x="12" y="34" width="208" height="310" rx="14" fill="#13263C" stroke="#28435F"/>
+          <g fill="#28435F">
+            <rect x="28" y="54" width="120" height="8" rx="4"/><rect x="168" y="54" width="36" height="8" rx="4"/>
+            <rect x="28" y="82" width="148" height="8" rx="4"/><rect x="168" y="82" width="36" height="8" rx="4"/>
+            <rect x="28" y="110" width="104" height="8" rx="4"/><rect x="168" y="110" width="36" height="8" rx="4"/>
+            <rect x="28" y="138" width="136" height="8" rx="4"/><rect x="168" y="138" width="36" height="8" rx="4"/>
+            <rect x="28" y="166" width="116" height="8" rx="4"/><rect x="168" y="166" width="36" height="8" rx="4"/>
+            <rect x="28" y="194" width="144" height="8" rx="4"/><rect x="168" y="194" width="36" height="8" rx="4"/>
+            <rect x="28" y="222" width="98" height="8" rx="4"/><rect x="168" y="222" width="36" height="8" rx="4"/>
+            <rect x="28" y="250" width="130" height="8" rx="4"/><rect x="168" y="250" width="36" height="8" rx="4"/>
+          </g>
+          <text x="28" y="296" fill="#73879B" font-family="system-ui,sans-serif" font-size="11">30 linhas registradas.</text>
+          <text x="28" y="314" fill="#73879B" font-family="system-ui,sans-serif" font-size="11">Nenhuma conclusão.</text>
+          <text x="264" y="22" fill="#7EE646" font-family="system-ui,sans-serif" font-size="12" font-weight="700">MeuBolso AI</text>
+          <rect x="260" y="34" width="208" height="310" rx="14" fill="#13263C" stroke="#7EE646"/>
+          <text x="278" y="62" fill="#FFFFFF" font-family="system-ui,sans-serif" font-size="13" font-weight="700">1 gasto em destaque</text>
+          <g>
+            <rect x="278" y="104" width="20" height="30" rx="4" fill="#28435F"/>
+            <rect x="308" y="112" width="20" height="22" rx="4" fill="#28435F"/>
+            <rect x="338" y="82" width="20" height="52" rx="4" fill="#EF9F27"/>
+            <rect x="368" y="118" width="20" height="16" rx="4" fill="#28435F"/>
+            <rect x="398" y="108" width="20" height="26" rx="4" fill="#28435F"/>
+            <rect x="428" y="120" width="20" height="14" rx="4" fill="#28435F"/>
+          </g>
+          <line x1="278" y1="134" x2="450" y2="134" stroke="#28435F"/>
+          <text x="338" y="156" fill="#F7C877" font-family="system-ui,sans-serif" font-size="11" text-anchor="middle">Entrega de comida</text>
+          <rect x="278" y="176" width="172" height="62" rx="10" fill="#0B1B2D" stroke="#28435F"/>
+          <text x="294" y="198" fill="#9FB3C6" font-family="system-ui,sans-serif" font-size="10">No ano, equivale a</text>
+          <text x="294" y="222" fill="#FFFFFF" font-family="system-ui,sans-serif" font-size="17" font-weight="700">12 meses</text>
+          <rect x="278" y="252" width="172" height="58" rx="10" fill="#0B1B2D" stroke="#28435F"/>
+          <text x="294" y="274" fill="#9FB3C6" font-family="system-ui,sans-serif" font-size="10">Limite sugerido para o mês</text>
+          <rect x="294" y="286" width="140" height="8" rx="4" fill="#28435F"/>
+          <rect x="294" y="286" width="86" height="8" rx="4" fill="#7EE646"/>
+          <text x="278" y="332" fill="#A9BCCD" font-family="system-ui,sans-serif" font-size="11">Uma decisão, não um relatório.</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section defer" id="planos">
+  <div class="container">
+    <div class="reveal" style="max-width:62ch;margin-bottom:40px">
+      <p class="eyebrow">Planos e preços</p>
+      <h2 class="heading-xl">Comece por R$ 0. Assine por R$ 99,90 só se fizer diferença.</h2>
+    </div>
+    <div class="grid grid-2">
+      <div class="plan reveal">
+        <h3 class="heading-md">Gratuito</h3>
+        <p class="price">R$ 0</p>
+        <p class="muted">Para sempre, sem cartão</p>
+        <ul class="list">
+          <li>Registro de despesas por categoria</li>
+          <li>Resumo mensal dos gastos</li>
+          <li>1 despesa em destaque por mês</li>
+        </ul>
+        <a class="btn btn-primary" href="#cadastro">Quero Começar a Economizar</a>
+      </div>
+      <div class="plan plan-featured reveal reveal-delay-1">
+        <span class="badge">Mais completo</span>
+        <h3 class="heading-md">Premium</h3>
+        <p class="price">R$ 99,90<span style="font-size:var(--text-base);font-weight:400;color:var(--color-text-light)"> /mês</span></p>
+        <p class="muted">Sem fidelidade, cancela quando quiser</p>
+        <ul class="list">
+          <li>Tudo do plano gratuito</li>
+          <li>Análises detalhadas por período</li>
+          <li>Planejamento financeiro personalizado</li>
+          <li>Acompanhamento de metas de economia</li>
+        </ul>
+        <a class="btn btn-primary" href="#cadastro">Quero Começar a Economizar</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-soft defer" id="faq">
+  <div class="container" style="max-width:860px">
+    <div class="reveal" style="margin-bottom:28px">
+      <p class="eyebrow">Perguntas frequentes</p>
+      <h2 class="heading-xl">O que as pessoas perguntam antes de baixar</h2>
+    </div>
+    <div class="reveal">
+      <details class="faq-item">
+        <summary>Preciso conectar minha conta bancária?</summary>
+        <div class="faq-answer">Não. Você registra os gastos dentro do app e a análise é feita em cima disso. Nenhum login de banco é pedido em momento algum.</div>
+      </details>
+      <details class="faq-item">
+        <summary>O MeuBolso AI faz aplicações ou movimenta meu dinheiro?</summary>
+        <div class="faq-answer">Não fazemos aplicações na sua conta. O app não investe, não transfere e não tem acesso ao seu saldo. Ele organiza e analisa a informação que você registra.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Quanto eu vou economizar?</summary>
+        <div class="faq-answer">Depende dos seus gastos, e qualquer número que a gente prometesse aqui seria chute. O que o app entrega é concreto: aponta a despesa que mais cresceu no mês e mostra quanto ela representa em 12 meses. A decisão de cortar continua sua.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Quanto tempo leva para manter o app em dia?</summary>
+        <div class="faq-answer">Poucos minutos por semana. Cada lançamento leva segundos se você registrar logo depois do gasto.</div>
+      </details>
+      <details class="faq-item">
+        <summary>Em quanto tempo vejo a primeira análise?</summary>
+        <div class="faq-answer">O resumo aparece desde o primeiro mês de uso. A comparação entre períodos e o alerta de gasto que cresceu dependem de ter ao menos 1 mês registrado.</div>
+      </details>
+      <details class="faq-item">
+        <summary>O que acontece com meus dados se eu apagar a conta?</summary>
+        <div class="faq-answer">Os dados associados à conta são excluídos. Você faz isso direto no app, sem precisar falar com o suporte.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="section defer" id="garantias">
+  <div class="container">
+    <div class="reveal" style="max-width:62ch;margin-bottom:36px">
+      <p class="eyebrow">Garantias</p>
+      <h2 class="heading-lg">O que assumimos com você</h2>
+    </div>
+    <div class="grid grid-3">
+      <div class="guarantee reveal">
+        <div class="shield" aria-hidden="true">✓</div>
+        <div><h3 class="heading-md">R$ 0, sem prazo</h3><p class="muted" style="margin-top:6px">O plano gratuito não expira e não pede cartão em nenhum momento.</p></div>
+      </div>
+      <div class="guarantee reveal reveal-delay-1">
+        <div class="shield" aria-hidden="true">✓</div>
+        <div><h3 class="heading-md">Cancelamento em 1 toque</h3><p class="muted" style="margin-top:6px">A assinatura é cancelada pela própria loja de apps, a qualquer momento, sem fidelidade.</p></div>
+      </div>
+      <div class="guarantee reveal reveal-delay-2">
+        <div class="shield" aria-hidden="true">✓</div>
+        <div><h3 class="heading-md">0 dados vendidos</h3><p class="muted" style="margin-top:6px">Nenhuma informação sua é comercializada ou repassada a terceiros.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-soft defer" id="cadastro">
+  <div class="container">
+    <div class="grid grid-2" style="align-items:center">
+      <div class="reveal">
+        <p class="eyebrow">Comece agora</p>
+        <h2 class="heading-xl">2 campos, e o link do app chega no seu e-mail</h2>
+        <p class="lead" style="margin-top:14px">Deixe nome e e-mail para receber o link de download e o aviso quando o plano premium entrar no ar. No máximo 1 e-mail por mês.</p>
+      </div>
+      <div class="form-wrap reveal reveal-delay-1">
+        <form id="form-cadastro" novalidate>
+          <div class="field">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" autocomplete="given-name" placeholder="Como podemos te chamar" required>
+          </div>
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" autocomplete="email" placeholder="voce@email.com" required>
+          </div>
+          <div class="consent">
+            <input type="checkbox" id="lgpd" name="lgpd" required>
+            <label for="lgpd" style="font-weight:400">Autorizo o contato por e-mail e o tratamento dos meus dados conforme a Política de Privacidade, nos termos da LGPD. Posso revogar a qualquer momento.</label>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%">Quero Começar a Economizar</button>
+          <p class="muted" id="form-status" role="status" style="margin-top:14px;min-height:22px"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark defer" id="cta-final">
+  <div class="container" style="text-align:center;max-width:720px">
+    <div class="reveal">
+      <h2 class="heading-xl">Chega de ver seu dinheiro desaparecer!</h2>
+      <p class="lead" style="margin:16px auto 28px">Registre os gastos de 1 semana e veja o que aparece. Custa R$ 0 e, se não mostrar nada que você já não soubesse, é só desinstalar.</p>
+      <a class="btn btn-primary" href="#cadastro">Quero Começar a Economizar</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="defer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="logo" href="#hero" style="margin-bottom:12px">MeuBolso <span>AI</span></a>
+        <p style="max-width:42ch">Assistente financeiro pessoal da Nereu's Corp. Organiza seus gastos, aponta o que cresceu e sugere onde economizar.</p>
+      </div>
+      <div>
+        <h3>Produto</h3>
+        <ul class="footer-links">
+          <li><a href="#beneficios">Benefícios</a></li>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#planos">Planos e preços</a></li>
+          <li><a href="#faq">Perguntas frequentes</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Legal</h3>
+        <ul class="footer-links">
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Termos de Uso</a></li>
+          <li><a href="#">Encarregado de dados (LGPD)</a></li>
+          <li><a href="#">Fale conosco</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Nereu's Corp. Todos os direitos reservados.</p>
+      <p>O MeuBolso AI é uma ferramenta de organização financeira. Não realiza aplicações, não movimenta valores e não constitui recomendação de investimento.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function(el){ el.classList.add('active'); });
+  } else {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    els.forEach(function(el){
+      obs.observe(el);
+      el.addEventListener('transitionend', function(){ this.style.willChange = 'auto'; }, { once: true });
+    });
+  }
+
+  var faq = document.getElementById('faq');
+  if (faq) {
+    faq.addEventListener('click', function(e){
+      var s = e.target.closest('summary');
+      if (!s) return;
+      var current = s.parentElement;
+      faq.querySelectorAll('details[open]').forEach(function(d){
+        if (d !== current) d.removeAttribute('open');
+      });
+    });
+  }
+
+  var form = document.getElementById('form-cadastro');
+  if (form) {
+    var status = document.getElementById('form-status');
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var nome = form.nome.value.trim();
+      var email = form.email.value.trim();
+      if (!nome) { status.textContent = 'Informe seu nome.'; form.nome.focus(); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { status.textContent = 'Informe um e-mail válido.'; form.email.focus(); return; }
+      if (!form.lgpd.checked) { status.textContent = 'É preciso autorizar o tratamento dos dados para continuar.'; form.lgpd.focus(); return; }
+      status.textContent = 'Pronto, ' + nome + '. O link do app chega no seu e-mail.';
+      form.reset();
+    });
+  }
+})();
+</script>
+</body>
+</html>
